@@ -30,8 +30,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- Formulaire d'ajout d'une actualité -->
-						<form class="form-horizontal" role="form" action="ajout.php" method="post">
+                        <!-- Formulaire d'ajout de connection -->
+						<form class="form-horizontal" role="form" action="comfirmationconnect.php" method="post">
 							<div class="clearfix"></div>
 							<div class="col-md-12">
 								<div class="form-group">
@@ -40,13 +40,13 @@
 								</div>
 								<div class="form-group">
 									<label class="col-md-4">mot de passe : </label>
-									<input type="text" name="mdp" id="mdp" class="form-control" required>
+									<input type="password" name="mdp" id="mdp" class="form-control" required>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<div class="col-md-12">
-										<button type="submit" name="comfirmer" class="btn btn-default" onsubmit"><a href="ajoutactu.php">comfirmer</a></button>
+										<button type="submit" name="comfirmer" class="btn btn-default" onsubmit>comfirmer</button>
 									</div>
 								</div>
 							</div>
@@ -55,6 +55,7 @@
                 </div>
             </div>
         </section>
+
 		<script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="assets/js/script.js"></script>

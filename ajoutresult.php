@@ -1,39 +1,10 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<link href="bootstrap-3.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-		<meta charset="utf-8">
-		<script src="bootstrap/js/jquery.js"></script>
-		<script src="bootstrap/js/bootstrap.min.js"></script>
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<script src="https://code.jquery.com/jquery.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<title>ajout résultat</title>
-	</head>
-
-	<body data-spy="scroll" data-target=".navbar">
-		<header>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4 col-md-offset-4"><a href="accueil.php"><img src="image/alspuiseux.jpg" width="250px"/></a>
-					</div>
-				</div>
-			</div>
-        </header>
-        <nav id="topnav" class="navbar navbar-default" role="navigation">
-            <div class="container">
-                <div class="menu">
-                        <div class="col-md-3"><a href="ajoutactu.php">ajouter une actualité</a></div>
-						<div class="col-md-3"><a href="ajoutevent.php">ajouter un évènement</a></div>
-						<div class="col-md-3"><a href="ajoutresult.php">ajouter un résultat</a></div>
-						<div class="col-md-3"><a href="ajoutimg.php">ajout d'une photo</a></div>
-                </div>
-            </div>
-        </nav>
+<?php
+session_start();
+if (!isset($_SESSION['identifiant']))
+{
+	header('location:connexion.php');
+}
+?>
    
         <header>
             <div class="container">
@@ -49,16 +20,59 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
+                    	<?php
+							try
+							{
+								// Create connection
+								$bdd = new PDO("mysql:host=localhost;dbname=projetjudo", 'root', ''); // connexion à la BDD
+							}
+							catch(Exception $e)
+							{
+								// En cas d'erreur, on affiche un message et on arrête tout
+								die('Erreur : '.$e->getMessage());
+							}
+							if (isset($_POST['ajout']))
+							{
+
+								$description = $_POST['description'];
+								if ($_POST['date'] != NULL){
+								$date= $_POST['date'];
+								$date=explode("/",$date);
+								$final_date=$date[2].'-'.$date[1].'-'.$date[0];
+								}
+								else
+								{
+									$final_date='0000-00-00';
+								}
+
+								$ajouteur= $_POST['rapporteur'];
+								$sql="INSERT INTO `resultats` VALUES ('', '$final_date', '$description','$ajouteur')";
+								echo"le résultat à bien été ajouté </br>";
+								$bdd->exec($sql);
+								$bdd=null;
+							}
+						?>
                         <!-- Formulaire d'ajout d'une actualité -->
-						<form class="form-horizontal" role="form" action="ajout.php" method="post">
+						<form class="form-horizontal" role="form" action="index1.php?page=ajoutresult.php" method="post">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-md-4" > Nom/Prénom de l'ajouteur : </label> <!-- Pour mettre "Rapporteur" (a l'aide d'un label) a coter de la liste deroulante on fractionne l'ecran en 4-8 (4 pour "rapporteur" et 8 pour la liste deroulante -->
 									<div class="col-md-8" >
 										<select class="form-control" name="rapporteur">  <!-- GRID option (pour fractionner l'ecran et y inserer des données ) -->
-											<option value="0">Véronique ROYER</option>
-											<option value="1">Jean-Philippe ROQUES</option>
-											<option value="2">Cyrille SALBART</option>
+											<?php
+												$bdd = new PDO("mysql:host=localhost;dbname=projetjudo", 'root', '');
+												$requete = $bdd->query("SELECT num, prenom, nom FROM membres");
+												
+												while($row = $requete->fetch())
+												{
+													$nom = $row['prenom'].' '.$row['nom'];
+													$id = $row['num'];
+													echo"<option value='$id'> $nom </option>";
+												}
+												
+												$requete=null;
+												$bdd=null;
+											?>
 										</select>
 									</div>
 								</div>
@@ -85,7 +99,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<div class="col-md-12">
-									  <button type="submit" name="enregistrer" class="btn btn-default" onsubmit">Enregistrer</button>
+									  <button type="submit" name="ajout" class="btn btn-default" onsubmit>ajouter le résultat</button>
 									</div>
 								</div>
 							</div>
@@ -94,9 +108,3 @@
                 </div>
             </div>
         </section>
-		<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="assets/js/script.js"></script>
-		
-    </body>
-</html>

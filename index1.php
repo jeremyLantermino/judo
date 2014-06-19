@@ -1,15 +1,16 @@
 <?php
+
 	if ( !empty($_GET['page']))
 	{
 		$name = $_GET['page'];
 	}
 	else 
 	{
-		$name = 'accueil.php';
+		$name = 'ajoutactu.php';
 	}
 
-	include('header.php');
+	include('header1.php');
 	include($name);
-	include('footer.php');
+	include('footer1.php');
 
 ?>
