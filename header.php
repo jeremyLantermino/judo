@@ -1,4 +1,6 @@
- <!DOCTYPE html>
+ <?php
+ session_start();
+ ?><!DOCTYPE html>
 <html>
 	<head>
 		<link href="bootstrap-3.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,6 +19,12 @@
 	<body>
 		<a href="connexion.php">se connecter</a>
 		<a href="index.php?page=inscription.php">inscription</a>
+		<?php
+			if (isset($_SESSION['identifiant']))
+			{
+				echo"<a href='deconnection.php'>Déconnexion</a>";
+			}
+		?>
 		<header>
 			<div class="container">
 				<div class="row">
@@ -25,7 +33,6 @@
 				</div>
 			</div>
         </header>
-		
         <nav id="topnav" class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="menu">

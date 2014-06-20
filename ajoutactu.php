@@ -4,7 +4,32 @@ if (!isset($_SESSION['identifiant']))
 {
 	header('location:connexion.php');
 }
+else
+{
+	try
+	{
+		// Create connection
+		$bdd = new PDO("mysql:host=localhost;dbname=projetjudo", 'root', ''); // connexion à la BDD
+	}
+	catch(Exception $e)
+	{
+		// En cas d'erreur, on affiche un message et on arrête tout
+			die('Erreur : '.$e->getMessage());
+	}
+
+		$identifiant=$_SESSION['identifiant'];
+		$req1= $bdd->query("SELECT role FROM membres WHERE identifiant ='$identifiant';");
+		while($row = $req1->fetch())
+		{
+			if($row['role'] != 'admin')
+			{
+				header('location:index.php?page=desole.php');
+			}
+		}
+}
 ?>
+
+
         <header>
             <div class="container">
                 <div class="row">
@@ -22,16 +47,7 @@ if (!isset($_SESSION['identifiant']))
 
         
 						<?php
-							try
-							{
-								// Create connection
-								$con = new PDO("mysql:host=localhost;dbname=projetjudo", 'root', ''); // connexion à la BDD
-							}
-							catch(Exception $e)
-							{
-								// En cas d'erreur, on affiche un message et on arrête tout
-									die('Erreur : '.$e->getMessage());
-							}
+							
 							if (isset($_POST['ajout']))
 							{
 
@@ -52,8 +68,8 @@ if (!isset($_SESSION['identifiant']))
 								$sql="INSERT INTO `actualitees` VALUES ('', '$final_date', '$description','$ajouteur')";
 								
 								echo"l'actualitée à bien été ajouté </br>";
-								$con->exec($sql);
-								$con=null;
+								$bdd->exec($sql);
+								$bdd=null;
 							}
 						?>
                         <!-- Formulaire d'ajout d'une actualité -->
@@ -65,7 +81,7 @@ if (!isset($_SESSION['identifiant']))
 										<select class="form-control" name="rapporteur">  <!-- GRID option (pour fractionner l'ecran et y inserer des données ) -->
 											<?php
 												$bdd = new PDO("mysql:host=localhost;dbname=projetjudo", 'root', '');
-												$requete = $bdd->query("SELECT num, prenom, nom FROM membres");
+												$requete = $bdd->query("SELECT num, prenom, nom FROM membres ");
 												
 												while($row = $requete->fetch())
 												{

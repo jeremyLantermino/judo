@@ -8,7 +8,7 @@
 						<?php
 							$bdd = new PDO("mysql:host=localhost;dbname=projetjudo", 'root', '');
 							$requete = $bdd->query("SELECT nom, prenom, datepublication, description
-							FROM membres, evenements WHERE num = numMembre");
+							FROM membres, evenements WHERE num = numMembre ORDER BY datepublication DESC");
 							
 							while($row = $requete->fetch())
 							{

@@ -51,7 +51,7 @@
 									$id = $_POST['id'];
 									$mdp = $_POST['mdp'];
 										
-									$sql="INSERT INTO `membres` VALUES ('', '$id', '$mdp','$nom', '$prenom', '$mail', '')";
+									$sql="INSERT INTO `membres` VALUES ('', '$id', '$mdp','$nom', '$prenom', '', '$mail')";
 									
 									echo"vous êtes bien inscrit </br>";
 									$con->exec($sql);
@@ -106,7 +106,7 @@
 							<div class="col-md-8" >
 								<div class="col-md-8">
 									<div style="display">
-										<input type="text" name="mdp" id="mdp" class="form-control" required>
+										<input type="password" name="mdp" id="mdp" class="form-control" required>
 									</div>
 								</div>
 							</div>
